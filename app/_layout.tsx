@@ -1,39 +1,48 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Stack } from "expo-router";
+import React, { Suspense, useEffect } from "react";
+import { ActivityIndicator } from "react-native";
+import { SQLiteProvider, openDatabaseSync } from "expo-sqlite";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
+import migrations from "@/drizzle/migrations";
+import * as schema from "@/db/schema";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+export const DATABASE_NAME = "tasks";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+const expoDb = openDatabaseSync(DATABASE_NAME);
+const db = drizzle(expoDb, { schema });
+
+// https://www.youtube.com/watch?v=AT5asDD3u_A
+// or https://orm.drizzle.team/docs/get-started/expo-new
+// change the schema and generate migrations with: npx drizzle-kit generate
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  const { success, error } = useMigrations(db, migrations);
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
+    if (success) {
+      console.log({ success });
     }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
+  }, [success]);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <Suspense fallback={<ActivityIndicator size="large" />}>
+      <SQLiteProvider
+        databaseName={DATABASE_NAME}
+        options={{ enableChangeListener: true }}
+        useSuspense
+      >
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{ title: "Home" }}
+          />
+          <Stack.Screen
+            name="about"
+            options={{ title: "About" }}
+          />
+        </Stack>
+      </SQLiteProvider>
+    </Suspense>
   );
 }
