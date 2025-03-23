@@ -25,9 +25,5 @@ import { ExpoSQLiteDatabase } from "drizzle-orm/expo-sqlite";
 // }
 
 export async function addDummyData(db: ExpoSQLiteDatabase) {
-  await db.insert(notes).values([
-    { title: "List 1", type: "note" },
-    { title: "List 2", type: "note" },
-    { title: "List 3", type: "note" },
-  ]);
+  await db.insert(notes).values([{ title: "Note 1" }, { title: "Note 2" }, { title: "Note 3" }]);
 }

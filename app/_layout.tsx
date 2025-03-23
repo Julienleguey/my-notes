@@ -7,14 +7,14 @@ import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "@/drizzle/migrations";
 import * as schema from "@/db/schema";
 
-export const DATABASE_NAME = "tasks";
-
-const expoDb = openDatabaseSync(DATABASE_NAME);
-const db = drizzle(expoDb, { schema });
+export const DATABASE_NAME = "notesDb";
 
 // https://www.youtube.com/watch?v=AT5asDD3u_A
 // or https://orm.drizzle.team/docs/get-started/expo-new
 // change the schema and generate migrations with: npx drizzle-kit generate
+const expoDb = openDatabaseSync(DATABASE_NAME);
+
+const db = drizzle(expoDb, { schema });
 
 export default function RootLayout() {
   const { success, error } = useMigrations(db, migrations);
@@ -24,6 +24,12 @@ export default function RootLayout() {
       console.log({ success });
     }
   }, [success]);
+
+  useEffect(() => {
+    if (error) {
+      console.log({ error });
+    }
+  }, [error]);
 
   return (
     <Suspense fallback={<ActivityIndicator size="large" />}>
@@ -35,7 +41,7 @@ export default function RootLayout() {
         <Stack>
           <Stack.Screen
             name="index"
-            options={{ title: "Home" }}
+            options={{ headerShown: false }}
           />
           <Stack.Screen
             name="about"
