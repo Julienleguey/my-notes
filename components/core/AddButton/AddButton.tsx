@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, ViewStyle } from "react-native";
 import { PRIMARY, PRIMARY_DARK } from "@/utils/constants";
 import PlusSvg from "@/components/svgs/PlusSvg";
-import { ViewStyle } from "react-native";
 import { WHITE } from "@/utils/constants";
 
 type AddButtonProps = {

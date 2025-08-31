@@ -48,3 +48,25 @@ Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
 - [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## After a new package has been installed, if it's a react-native-something package we need to rebuild
+
+see: https://docs.expo.dev/get-started/set-up-your-environment/?mode=development-build
+
+```bash
+   eas build --platform android --profile development
+```
+
+## run migrations
+
+- edit schema.ts
+- `npx drizzle-kit generate` to run the migrations
+
+## Run the app
+
+```bash
+   npx expo start
+```
+
+Scan the QR code and the app should open.
+Make sure in /Système/Options pour les développeurs "Débogage sans fil" is checked on the device

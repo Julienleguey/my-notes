@@ -1,9 +1,10 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, TextStyle } from "react-native";
 import { DARK } from "@/utils/constants";
 
 type CustomTextProps = {
-  children: string;
+  children: string | undefined | null;
+  style?: TextStyle;
 };
 
 const styles = StyleSheet.create({
@@ -13,8 +14,8 @@ const styles = StyleSheet.create({
   },
 });
 
-function CustomText({ children }: CustomTextProps) {
-  return <Text style={styles.text}>{children}</Text>;
+function CustomText({ style, children }: CustomTextProps) {
+  return <Text style={[styles.text, style]}>{children}</Text>;
 }
 
 export default CustomText;

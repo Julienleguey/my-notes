@@ -1,49 +1,9 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "d522a28d-1010-463b-b37f-16cd925e03ad",
+  "id": "b527fd6d-e432-40be-87db-516b38497ae8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "lists": {
-      "name": "lists",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(current_timestamp)"
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(current_timestamp)"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "notes": {
       "name": "notes",
       "columns": {
@@ -66,6 +26,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false,
+          "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "created_at": {
@@ -108,8 +75,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "list_id": {
-          "name": "list_id",
+        "note_id": {
+          "name": "note_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -134,12 +101,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "tasks_list_id_lists_id_fk": {
-          "name": "tasks_list_id_lists_id_fk",
+        "tasks_note_id_notes_id_fk": {
+          "name": "tasks_note_id_notes_id_fk",
           "tableFrom": "tasks",
-          "tableTo": "lists",
+          "tableTo": "notes",
           "columnsFrom": [
-            "list_id"
+            "note_id"
           ],
           "columnsTo": [
             "id"

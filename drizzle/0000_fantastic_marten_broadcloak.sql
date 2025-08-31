@@ -1,14 +1,8 @@
-CREATE TABLE `lists` (
-	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
-	`title` text NOT NULL,
-	`created_at` text DEFAULT (current_timestamp) NOT NULL,
-	`updated_at` text DEFAULT (current_timestamp) NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE `notes` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`title` text NOT NULL,
 	`content` text,
+	`type` text NOT NULL,
 	`created_at` text DEFAULT (current_timestamp) NOT NULL,
 	`updated_at` text DEFAULT (current_timestamp) NOT NULL
 );
@@ -16,8 +10,8 @@ CREATE TABLE `notes` (
 CREATE TABLE `tasks` (
 	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text NOT NULL,
-	`list_id` integer NOT NULL,
+	`note_id` integer NOT NULL,
 	`created_at` text DEFAULT (current_timestamp) NOT NULL,
 	`updated_at` text DEFAULT (current_timestamp) NOT NULL,
-	FOREIGN KEY (`list_id`) REFERENCES `lists`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`note_id`) REFERENCES `notes`(`id`) ON UPDATE no action ON DELETE no action
 );
